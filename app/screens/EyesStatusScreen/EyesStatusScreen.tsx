@@ -11,7 +11,7 @@ const EyesStatusScreen = ({navigation}) => {
     const [level, setLevel] = useState(3)
 
     return (
-        <QuizLayout onPressBtn={() => navigation.navigate("EverydayTimeScreen")} btnText={'Продолжить'} title={"Насколько ваши глаза напряжены?"}>
+        <QuizLayout onPressBtn={() => navigation.navigate("EverydayTime")} btnText={'Продолжить'} title={"Насколько ваши глаза напряжены?"}>
             <View className={"justify-center w-full"}>
                 <Text className={"mb-6 text-center text-xl w-full justify-center"} style={im}>{smiles?.find(smile => smile.level === level).description}</Text>
                 <SelectSmiles type={"big"} currentLevel={level} setCurrentLevel={setLevel}/>

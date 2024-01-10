@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1041997156650",
+    "project_id": "visionus-bd48e",
+    "storage_bucket": "visionus-bd48e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1041997156650:android:38b81488cca205cf2dce53",
+        "android_client_info": {
+          "package_name": "com.axodevjs.visionus"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1041997156650-co3t5m3eahjjovdc44k77o4c7of3rpbo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.axodevjs.visionus",
+            "certificate_hash": "07b10a2fcb869f888ff28bf3e4b108670ce4cebd"
+          }
+        },
+        {
+          "client_id": "1041997156650-t058smiad1upvleeeg67kd31nbejd8c5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.axodevjs.visionus",
+            "certificate_hash": "752c02850980a510710f85c8d84e4edbee710969"
+          }
+        },
+        {
+          "client_id": "1041997156650-r1cu2hbsijnf7uv1o5rjrh19m9d4g7ht.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOWWOFpBXKbETTyNBt7lQuWoT3IqXe1jI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1041997156650-r1cu2hbsijnf7uv1o5rjrh19m9d4g7ht.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -8,7 +8,7 @@ const EverydayTimeScreen = ({navigation}) => {
     const [selectedTime, setSelectedTime] = useState('10 мин')
 
     const onPressNext = () => {
-        navigation.navigate('HomeScreen')
+        navigation.navigate('Home')
     }
 
     const handleSelect = (time: string) => {

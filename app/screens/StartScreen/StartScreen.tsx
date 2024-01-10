@@ -3,10 +3,14 @@ import { Image, Text, View } from 'react-native'
 import Logo from '../../../assets/img/logo.png'
 import MainLayout from '../../components/Layouts/MainLayout'
 import { ibl, ir } from '../../utils/fontStyles'
+import useGoogleSignIn from "../../hooks/useGoogleSignIn";
 
 const StartScreen = ({ navigation }) => {
-	const onPressBtn = () => {
-		navigation.navigate('Age')
+	const {signInWithGoogle} = useGoogleSignIn()
+
+	const onPressBtn = async () => {
+		// navigation.navigate('Age')
+		await signInWithGoogle()
 	}
 
 	return (
