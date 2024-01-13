@@ -2,6 +2,7 @@ import React, {FC} from 'react';
 import {Text, View} from "react-native";
 import ProgressCircle from "../../ProgressCircle/ProgressCircle";
 import {ir} from "../../../utils/fontStyles";
+import {smiles} from "../../../utils/smiles";
 
 interface IStatisticDisplay {
     value: number | string
@@ -17,7 +18,7 @@ const StatisticDisplay: FC<IStatisticDisplay> = ({value, calculate, day}) => {
                     <ProgressCircle type={'small'} fill={(parseInt(value?.toString()) / 15) * 100}/>
                     :
                     <Text className={'text-xs text-black font-medium'} style={ir}>
-                        {value}
+                        {smiles.find(smile => smile.level === value)?.smile || '?'}
                     </Text>
                 }
             </View>

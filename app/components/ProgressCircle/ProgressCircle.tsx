@@ -1,7 +1,8 @@
-import React, {FC} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import {Text, View} from "react-native";
 import {ib, ir} from "../../utils/fontStyles";
+import {useAuth} from "../../hooks/useAuth";
 
 interface IProgressCircle {
     fill: number;
@@ -9,6 +10,13 @@ interface IProgressCircle {
 }
 
 const ProgressCircle:FC<IProgressCircle> = ({fill, type}) => {
+    const [dayPlan, setDayPlan] = useState(0)
+    const {userFirestoreData} = useAuth()
+
+    useEffect(() => {
+console.log('fires', userFirestoreData)
+    }, [userFirestoreData]);
+
     return (
         <View className={"flex flex-col w-full items-center"}>
             <AnimatedCircularProgress

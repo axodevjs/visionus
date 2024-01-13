@@ -1,6 +1,7 @@
 import { useFonts } from 'expo-font'
 import { NativeWindStyleSheet } from 'nativewind'
 import MainNavigator from './app/navigation/MainNavigator'
+import {AuthProvider} from "./app/providers/AuthProvider/AuthProvider";
 
 // Установка стилей по умолчанию
 NativeWindStyleSheet.setOutput({
@@ -22,5 +23,9 @@ export default function App() {
 		return null
 	}
 
-	return <MainNavigator />
+	return (
+		<AuthProvider>
+			<MainNavigator />
+		</AuthProvider>
+	)
 }

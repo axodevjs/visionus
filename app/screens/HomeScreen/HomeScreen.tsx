@@ -10,8 +10,11 @@ import TimeStatistic from "../../components/TimeStatistic/TimeStatistic";
 const HomeScreen = () => {
     const [fill, setFill] = useState(65)
 
+    const onPressStart = () => {
+    }
+
     return (
-        <MainLayout onPressBtn={() => {}} btnText={'Начать тренировку'}>
+        <MainLayout onPressBtn={onPressStart} btnText={'Начать тренировку'}>
             <ScrollView className={"w-full"} showsVerticalScrollIndicator={false}>
                 <View className={'w-full flex flex-col items-center pb-7'}>
                     <ProgressCircle

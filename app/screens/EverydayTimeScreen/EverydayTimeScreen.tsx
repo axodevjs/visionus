@@ -3,12 +3,16 @@ import {Text, View} from "react-native";
 import MainLayout from "../../components/Layouts/MainLayout";
 import QuizLayout from "../../components/Layouts/QuizLayout";
 import SelectButton from "../../components/ui/SelectButton/SelectButton";
+import {useEverydayTime} from "../../hooks/useEverydayTime";
 
 const EverydayTimeScreen = ({navigation}) => {
     const [selectedTime, setSelectedTime] = useState('10 мин')
+    const {saveEverydayTime} = useEverydayTime()
 
-    const onPressNext = () => {
-        navigation.navigate('Home')
+    const onPressNext = async () => {
+        const minutes = parseInt(selectedTime.replace(/\D/g, ''), 10);
+        await saveEverydayTime(minutes)
+        await navigation.navigate('Home')
     }
 
     const handleSelect = (time: string) => {

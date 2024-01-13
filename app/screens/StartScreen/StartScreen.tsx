@@ -4,17 +4,17 @@ import Logo from '../../../assets/img/logo.png'
 import MainLayout from '../../components/Layouts/MainLayout'
 import { ibl, ir } from '../../utils/fontStyles'
 import useGoogleSignIn from "../../hooks/useGoogleSignIn";
+import {useAuth} from "../../hooks/useAuth";
 
 const StartScreen = ({ navigation }) => {
 	const {signInWithGoogle} = useGoogleSignIn()
 
-	const onPressBtn = async () => {
-		// navigation.navigate('Age')
-		await signInWithGoogle()
+	const onPressNext = async () => {
+		await signInWithGoogle(false)
 	}
 
 	return (
-		<MainLayout onPressBtn={onPressBtn} btnText='Начать'>
+		<MainLayout onPressBtn={onPressNext} btnText='Начать'>
 			<Image
 				style={{ height: 293, width: 289 }}
 				resizeMode='contain'

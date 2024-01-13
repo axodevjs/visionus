@@ -81,9 +81,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace 'com.axxxegao.visionus'
+    namespace 'com.axodevjs.visionus'
     defaultConfig {
-        applicationId 'com.axxxegao.visionus'
+        applicationId 'com.axodevjs.visionus'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
