@@ -1,4 +1,4 @@
-import {collection, doc, getDocs, query, serverTimestamp, setDoc, where} from "firebase/firestore";
+import {collection, doc, getDocs, query, serverTimestamp, setDoc, where, orderBy, limit} from "firebase/firestore";
 import {auth, db} from "../firebase/firebase";
 
 export const useStatus = () => {
@@ -29,5 +29,23 @@ export const useStatus = () => {
         }
     }
 
-    return {saveStatus}
+    const getCurrentStatus = async () => {
+        const userStatusQuery = query(
+            collection(db, 'statuses'),
+            where('uid', '==', auth.currentUser.uid),
+            orderBy('date', 'desc'), // Order by date in descending order
+            limit(1) // Limit to the latest status
+        );
+
+        const querySnapshot = await getDocs(userStatusQuery);
+
+        if (querySnapshot.size > 0) {
+            const latestStatus = querySnapshot.docs[0].data();
+            return latestStatus;
+        } else {
+            return null;
+        }
+    };
+
+    return {saveStatus, getCurrentStatus}
 }

@@ -5,7 +5,7 @@ import {IFUser} from "../providers/AuthProvider/types";
 
 type AuthHookType = {
     user: User | null;
-    userFirestoreData: IFUser | null;
+    userFirestore: IFUser | null;
     initializing: boolean;
 };
 

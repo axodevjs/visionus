@@ -2,43 +2,46 @@ import React, { createContext, useContext, useEffect, useState, FC } from 'react
 import { User, onAuthStateChanged } from "firebase/auth";
 import {auth, db} from "../../firebase/firebase";
 import useGoogleSignIn from "../../hooks/useGoogleSignIn";
-import { doc, getDoc, setDoc } from 'firebase/firestore';
-import {IFUser} from "./types";
+import { doc, onSnapshot } from 'firebase/firestore';
+import {ActivityIndicator} from "nativewind/dist/preflight";
+import {View} from "react-native";
 
 export const AuthContext = createContext<any>({});
 
 export const AuthProvider: FC<any> = ({ children }) => {
     const [user, setUser] = useState<User | null>(null);
     const [initializing, setInitializing] = useState(true);
-    const [userFirestoreData, setUserFirestoreData] = useState<any | null>(null);
+    const [userFirestore, setUserFirestore] = useState<any | null>(null);
     const {signInWithGoogle, signOut} = useGoogleSignIn()
 
     useEffect(() => {
-            // signInWithGoogle(true)
+            signInWithGoogle(true)
             const fetchData = async (user: User | null) => {
                 if (user) {
                     try {
                         const userDocRef = doc(db, 'users', user.uid);
-                        const userDocSnap = await getDoc(userDocRef);
 
-                        if (userDocSnap.exists()) {
-                            setUserFirestoreData(userDocSnap.data());
-                        } else {
-                            await setDoc(userDocRef, {
-                                displayName: user.displayName,
-                                email: user.email,
-                            });
-                        }
+                        // Listen for real-time updates using onSnapshot
+                        const unsubscribe = onSnapshot(userDocRef, (doc) => {
+                            if (doc.exists()) {
+                                setUserFirestore(doc.data());
+                            } else {
+                                // Handle the case when the document doesn't exist
+                                setUserFirestore(null);
+                            }
+                        });
+
+                        return () => unsubscribe(); // Cleanup the subscription when component unmounts
                     } catch (error) {
                         console.error('Error fetching user data:', error);
                     }
                 } else {
-                    setUserFirestoreData(null);
+                    setUserFirestore(null);
                 }
             };
             const unsubscribe = onAuthStateChanged(auth, (user) => {
                 setUser(user || null);
-                setInitializing(false);
+                fetchData(user)
             });
 
             return unsubscribe;
@@ -46,7 +49,7 @@ export const AuthProvider: FC<any> = ({ children }) => {
         []);
 
     return (
-        <AuthContext.Provider value={{ user, initializing, userFirestoreData }}>
+        <AuthContext.Provider value={{ user, initializing, userFirestore }}>
             {children}
         </AuthContext.Provider>
     );

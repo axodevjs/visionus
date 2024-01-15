@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import Counter from "../../components/ui/Counter/Counter";
 import QuizLayout from "../../components/Layouts/QuizLayout";
 import {doc, setDoc} from "firebase/firestore";
