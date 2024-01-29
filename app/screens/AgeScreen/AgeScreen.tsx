@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import Counter from "../../components/ui/Counter/Counter";
-import QuizLayout from "../../components/Layouts/QuizLayout";
+import QuizLayout from "../../components/Layouts/QuizLayout/QuizLayout";
 import {doc, setDoc} from "firebase/firestore";
 import {auth, db} from "../../firebase/firebase";
 import {useAge} from "../../hooks/useAge";

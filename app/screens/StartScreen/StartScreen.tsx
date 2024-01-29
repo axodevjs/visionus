@@ -1,7 +1,7 @@
 import React from 'react'
 import { Image, Text, View } from 'react-native'
 import Logo from '../../../assets/img/logo.png'
-import MainLayout from '../../components/Layouts/MainLayout'
+import MainLayout from '../../components/Layouts/MainLayout/MainLayout'
 import { ibl, ir } from '../../utils/fontStyles'
 import useGoogleSignIn from "../../hooks/useGoogleSignIn";
 import {useAuth} from "../../hooks/useAuth";

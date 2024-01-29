@@ -1,10 +1,6 @@
 import React, {FC} from 'react';
-import MainLayout from "./MainLayout";
-import Title from "../ui/Title/Title";
-import {Text, View} from "react-native";
-import {im} from "../../utils/fontStyles";
-import {smiles} from "../../utils/smiles";
-import SelectSmiles from "../SelectSmiles/SelectSmiles";
+import MainLayout from "../MainLayout/MainLayout";
+import Title from "../../ui/Title/Title";
 
 interface IQuizLayout {
     children: React.ReactNode

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import MainLayout from "../../components/Layouts/MainLayout";
+import MainLayout from "../../components/Layouts/MainLayout/MainLayout";
 import {Text, View} from "react-native";
 import ProgressCircle from "../../components/ProgressCircle/ProgressCircle";
 import RateYourStatus from "../../components/RateYourStatus/RateYourStatus";
@@ -7,10 +7,11 @@ import StatusStatistic from "../../components/StatusStatistic/StatusStatistic";
 import {ScrollView} from "react-native-gesture-handler";
 import TimeStatistic from "../../components/TimeStatistic/TimeStatistic";
 
-const HomeScreen = () => {
+const HomeScreen = ({navigation}) => {
     const [fill, setFill] = useState(65)
 
     const onPressStart = () => {
+        navigation.navigate('Category')
     }
 
     return (

@@ -23,7 +23,7 @@ const ProgressCircle:FC<IProgressCircle> = ({fill, type}) => {
                 rotation={0}
                 lineCap={"round"}
                 tintColor="#2563eb"
-                onAnimationComplete={() => console.log('onAnimationComplete')}
+                onAnimationComplete={() => {}}
                 backgroundColor="#EAEAEA" >
                 {
                      (fill) => (

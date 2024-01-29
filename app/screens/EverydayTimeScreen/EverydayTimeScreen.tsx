@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Text, View} from "react-native";
-import MainLayout from "../../components/Layouts/MainLayout";
-import QuizLayout from "../../components/Layouts/QuizLayout";
+import MainLayout from "../../components/Layouts/MainLayout/MainLayout";
+import QuizLayout from "../../components/Layouts/QuizLayout/QuizLayout";
 import SelectButton from "../../components/ui/SelectButton/SelectButton";
 import {useEverydayTime} from "../../hooks/useEverydayTime";
 

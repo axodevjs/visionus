@@ -4,7 +4,7 @@ import {IModalStore} from "./types";
 const useModalStore = create<IModalStore>((set) => ({
     modals: {
         RateOurApp: {isVisible: false},
-        SelectCategory: {isVisible: true},
+        Feedback: {isVisible: false},
     },
     openModal: (modalName) => {
         set((state) => ({

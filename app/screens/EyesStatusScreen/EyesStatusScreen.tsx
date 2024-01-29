@@ -3,7 +3,7 @@ import {Text, View} from "react-native";
 import SelectSmiles from "../../components/SelectSmiles/SelectSmiles";
 import {im} from "../../utils/fontStyles";
 import {smiles} from "../../utils/smiles";
-import QuizLayout from "../../components/Layouts/QuizLayout";
+import QuizLayout from "../../components/Layouts/QuizLayout/QuizLayout";
 import {useStatus} from "../../hooks/useStatus";
 
 const EyesStatusScreen = ({navigation}) => {

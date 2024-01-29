@@ -1,20 +1,4 @@
-interface ICategory {
-    id: number
-    name: string
-    description: string
-}
-
-interface IExercise {
-    categoryId: number
-    name: string
-    description: string
-    tasks: IExerciseTask[]
-}
-
-interface IExerciseTask {
-    name: string
-    timeInSec: number
-}
+import {ICategory, IExercise} from "../../store/useExerciseStore/types";
 
 export const categories: ICategory[] = [
     {
@@ -34,8 +18,9 @@ export const categories: ICategory[] = [
     },
 ]
 
-export const exercises: IExercise[] = [
+export const exercisesList: IExercise[] = [
     {
+        id: 1,
         categoryId: 1,
         name: 'Вращение глаз по часовой стрелке',
         description: 'Медленно вращайте глаза вокруг, следуя по часовой стрелке. Повторите в течение 20 секунд.',
@@ -44,6 +29,7 @@ export const exercises: IExercise[] = [
         ],
     },
     {
+        id: 2,
         categoryId: 1,
         name: 'Поморгайте',
         description: 'Поморгайте быстро и расслабьте глаза в течение 5 секунд.',
@@ -52,6 +38,7 @@ export const exercises: IExercise[] = [
         ],
     },
     {
+        id: 3,
         categoryId: 1,
         name: 'Вращение глаз против часовой стрелки',
         description: 'Медленно вращайте глаза вокруг, следуя против часовой стрелки. Повторите в течение 20 секунд.',
@@ -60,14 +47,18 @@ export const exercises: IExercise[] = [
         ],
     },
     {
+        id: 4,
         categoryId: 2,
         name: 'Массаж висковой зоны',
         description: 'Массируйте висковую зону кончиками пальцев в течение 30 секунд.',
         tasks: [
-            { name: 'Массаж висковой зоны', timeInSec: 30 },
+            { name: 'Массаж висковой зоны1', timeInSec: 10 },
+            { name: 'Массаж висковой зоны2', timeInSec: 10 },
+            { name: 'Массаж висковой зоны2', timeInSec: 10 },
         ],
     },
     {
+        id: 5,
         categoryId: 2,
         name: 'Поморгайте и расслабьтесь',
         description: 'Поморгайте быстро в течение 5 секунд, затем расслабьтесь в течение 10 секунд.',
@@ -77,6 +68,7 @@ export const exercises: IExercise[] = [
         ],
     },
     {
+        id: 6,
         categoryId: 3,
         name: 'Фокусировка на кончике носа',
         description: 'Сфокусируйтесь на кончике носа в течение 15 секунд, затем переключитесь на дальний объект в течение 15 секунд.',

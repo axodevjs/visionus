@@ -2,8 +2,7 @@ import React from "react";
 
 export type ModalNameType =
     'RateOurApp' |
-    'Feedback' |
-    'SelectCategory'
+    'Feedback'
 
 export interface IModal {
     isVisible: boolean
