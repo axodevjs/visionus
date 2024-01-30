@@ -52,9 +52,9 @@ export const exercisesList: IExercise[] = [
         name: 'Массаж висковой зоны',
         description: 'Массируйте висковую зону кончиками пальцев в течение 30 секунд.',
         tasks: [
-            { name: 'Массаж висковой зоны1', timeInSec: 10 },
-            { name: 'Массаж висковой зоны2', timeInSec: 10 },
-            { name: 'Массаж висковой зоны2', timeInSec: 10 },
+            { name: 'Массаж висковой зоны1', timeInSec: 3 },
+            { name: 'Массаж висковой зоны2', timeInSec: 3 },
+            { name: 'Массаж висковой зоны2', timeInSec: 3 },
         ],
     },
     {

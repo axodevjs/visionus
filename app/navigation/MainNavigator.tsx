@@ -6,20 +6,16 @@ import StartScreen from '../screens/StartScreen/StartScreen';
 import EyesStatusScreen from '../screens/EyesStatusScreen/EyesStatusScreen';
 import EverydayTimeScreen from '../screens/EverydayTimeScreen/EverydayTimeScreen';
 import HomeScreen from '../screens/HomeScreen/HomeScreen';
-import {useAuth} from '../hooks/useAuth';
 import useModalStore from '../../store/useModalStore/useModalStore';
 import {ModalNameType} from '../../store/useModalStore/types';
 import RateOutAppModal from '../components/Modals/RateOutAppModal/RateOutAppModal';
 import FeedbackModal from '../components/Modals/FeedbackModal/FeedbackModal';
 import CategoryScreen from '../screens/CategoryScreen/CategoryScreen';
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import {TOKEN_KEY} from "../hooks/useGoogleSignIn";
 import ExerciseScreen from "../screens/ExerciseScreen/ExerciseScreen";
 
 const Stack = createStackNavigator();
 
 const MainNavigator = () => {
-    const {user, userFirestore} = useAuth();
     const {modals, closeModal, openModal} = useModalStore();
 
     const getModalComponent = (modalName: ModalNameType) => {
@@ -33,26 +29,17 @@ const MainNavigator = () => {
     };
 
     const renderScreens = () => {
-        if (!userFirestore) {
-            return <Stack.Screen name="Start" component={StartScreen}/>;
-        } else {
-            return (
-                <>
-                    {userFirestore?.age ? (<>
-                        <Stack.Screen name="Home" component={HomeScreen}/>
-                        <Stack.Screen name="Category" component={CategoryScreen}/>
-                        <Stack.Screen name="Exercise" component={ExerciseScreen}/>
-                    </>) : (
-                        <>
-                            <Stack.Screen name="Age" component={AgeScreen}/>
-                            <Stack.Screen name="EyesStatus" component={EyesStatusScreen}/>
-                            <Stack.Screen name="EverydayTime" component={EverydayTimeScreen}/>
-                        </>
-                    )}
-                </>
-            );
-        }
-    };
+        return (
+            <>
+                <Stack.Screen name="Home" component={HomeScreen}/>
+                <Stack.Screen name="Category" component={CategoryScreen}/>
+                <Stack.Screen name="Exercise" component={ExerciseScreen}/>
+                <Stack.Screen name="Age" component={AgeScreen}/>
+                <Stack.Screen name="EyesStatus" component={EyesStatusScreen}/>
+                <Stack.Screen name="EverydayTime" component={EverydayTimeScreen}/>
+            </>
+        );
+    }
 
     const renderModals = () => {
         return Object.entries(modals).map(([modalName, modal]) => {
@@ -83,6 +70,6 @@ const MainNavigator = () => {
             {renderModals()}
         </NavigationContainer>
     );
-};
+}
 
 export default MainNavigator;

@@ -2,7 +2,6 @@ import React, {FC, useEffect, useState} from 'react';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import {Text, View} from "react-native";
 import {ib, ir} from "../../utils/fontStyles";
-import {useAuth} from "../../hooks/useAuth";
 
 interface IProgressCircle {
     fill: number;
@@ -11,7 +10,6 @@ interface IProgressCircle {
 
 const ProgressCircle:FC<IProgressCircle> = ({fill, type}) => {
     const [dayPlan, setDayPlan] = useState(0)
-    const {userFirestore} = useAuth()
 
     return (
         <View className={"flex flex-col w-full items-center"}>
@@ -35,7 +33,7 @@ const ProgressCircle:FC<IProgressCircle> = ({fill, type}) => {
             </AnimatedCircularProgress>
             {type === 'big' && <View className={"items-center flex-row"} style={{gap: 14, marginTop: 14}}>
                 <View className={"bg-blue-600 w-4 h-4 rounded-full"}/>
-                <Text className={"text-sm text-black"} style={ir}>Дневная цель ({userFirestore?.dayPlan} мин)</Text>
+                <Text className={"text-sm text-black"} style={ir}>Дневная цель ( мин)</Text>
             </View>}
 
         </View>

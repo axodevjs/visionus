@@ -12,17 +12,23 @@ export interface IExercise {
     tasks: IExerciseTask[]
 }
 
-interface IExerciseTask {
+export interface IExerciseTask {
     name: string
     timeInSec: number
 }
 
 export interface IExerciseStore {
-    currentExercise: IExercise
-    currentTask: IExerciseTask
-    time: number
+    currentExercise: IExercise | null;
+    currentTask: IExerciseTask | null;
+    time: number;
+    timerIntervalId: NodeJS.Timeout | null;
+    taskQueue: IExerciseTask[];
 
-    setCurrentExercise: (exercise: IExercise) => Promise<void>
-    setTime: (time: number) => Promise<void>
-    setCurrentTask: (task: IExerciseTask) => Promise<void>
+    setCurrentExercise: (exercise: IExercise) => void;
+    setTime: (time: number) => void;
+    setCurrentTask: (task: IExerciseTask) => void;
+    enqueueTask: (task: IExerciseTask) => void;
+    dequeueTask: () => void;
+    startTimer: (onTimerTick: () => void, onTimerEnd: () => void) => void;
+
 }
