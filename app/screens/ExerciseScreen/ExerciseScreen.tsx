@@ -17,23 +17,23 @@ const ExerciseScreen = ({navigation}) => {
         startExercise();
     }, []);
 
-    const startExercise = async () => {
+    const startExercise = () => {
         const exercise = exercisesList?.filter(x => x?.categoryId === currentCategory?.id)?.sort(() => 0.5 - Math.random())[0];
         setCurrentExercise(exercise);
+        console.log(exercise)
 
         for (const task of exercise.tasks) {
-            console.log(task)
-            await enqueueTask(task);
-        }
-
-        // Check if taskQueue is not empty before starting the task
-        if (taskQueue.length > 0) {
-            startTask();
-        } else {
-            console.log('No tasks in the queue');
-            // Handle this case as needed
+            console.log('iteration', task)
+            enqueueTask(task);
         }
     };
+
+    useEffect(() => {
+        if (taskQueue?.length > 0) {
+            startTask()
+        }
+    }, [taskQueue])
+
 
     const startTask = () => {
         const task = taskQueue[taskIndex];
@@ -45,23 +45,18 @@ const ExerciseScreen = ({navigation}) => {
                     // Do something during each tick if needed
                 },
                 () => {
+                    if (taskQueue?.length - 1 <= 0) {
+                        navigation.navigate('Home');
+                    }
+
                     dequeueTask();
                     setTaskIndex((prev) => prev + 1)
                 }
             );
         } else {
-            // All tasks are completed, perform final actions here
-            console.log('completed')
             navigation.navigate('Home');
         }
     };
-
-    useEffect(() => {
-        console.log(taskIndex)
-        if (taskIndex !== 0) {
-            startTask()
-        }
-    }, [taskIndex]);
 
     return (
         <ExerciseLayout onPressBtn={() => {}} title={currentCategory?.name} onClose={() => {navigation.navigate("Home")}} btnText={"Начать"}>
