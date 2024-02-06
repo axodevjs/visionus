@@ -2,11 +2,14 @@ import React from 'react'
 import { Image, Text, View } from 'react-native'
 import Logo from '../../../assets/img/logo.png'
 import MainLayout from '../../components/Layouts/MainLayout/MainLayout'
+import useGoogleAuth from '../../hooks/useGoogleAuth'
 import { ibl, ir } from '../../utils/fontStyles'
 
 const StartScreen = ({ navigation }) => {
-		const onPressNext = async () => {
+	const { signIn } = useGoogleAuth()
 
+	const onPressNext = async () => {
+		await signIn()
 	}
 
 	return (

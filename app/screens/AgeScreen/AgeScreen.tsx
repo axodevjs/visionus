@@ -1,16 +1,18 @@
-import React, {useEffect, useState} from 'react'
+import React, {useState} from 'react'
 import Counter from "../../components/ui/Counter/Counter";
 import QuizLayout from "../../components/Layouts/QuizLayout/QuizLayout";
-import {doc, setDoc} from "firebase/firestore";
-import {auth, db} from "../../firebase/firebase";
-import {useAge} from "../../hooks/useAge";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const AgeScreen = ({ navigation }) => {
 	const [age, setAge] = useState(18)
-	const {saveAge} = useAge()
 
 	const onPressNext = async () => {
-		await saveAge(age)
+		try {
+			await AsyncStorage.setItem('age', age.toString());
+		} catch (e) {
+			console.log(e)
+		}
+
 		await navigation.navigate("EyesStatus")
 	}
 

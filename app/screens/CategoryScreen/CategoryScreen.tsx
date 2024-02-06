@@ -6,7 +6,7 @@ import useCategoryStore from "../../../store/useCategoryStore/useCategoryStore";
 
 const CategoryScreen = ({navigation}) => {
     const {setCurrentExercise, setCurrentTask} = useExerciseStore()
-    const {currentCategory} = useCategoryStore()
+
     const onPressBtn = () => {
         navigation.navigate('Exercise')
     }

@@ -1,7 +1,8 @@
+import { getFirestore } from '@firebase/firestore'
+import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage'
 import { initializeApp } from 'firebase/app'
-import {getAuth, initializeAuth} from 'firebase/auth'
-import {getFirestore} from '@firebase/firestore'
-
+import * as firebaseAuth from 'firebase/auth'
+import { getAuth, initializeAuth, signInWithCredential } from 'firebase/auth'
 const firebaseConfig = {
 	apiKey: 'AIzaSyDVqXHAn7n9ny8y302pTOtspF0qUnToxMk',
 	authDomain: 'visionus-bd48e.firebaseapp.com',
@@ -15,7 +16,23 @@ const firebaseConfig = {
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig)
 
-initializeAuth(app);
+const reactNativePersistence = (firebaseAuth as any).getReactNativePersistence
+initializeAuth(app, {
+	persistence: reactNativePersistence(ReactNativeAsyncStorage),
+})
 
-export const auth = getAuth();
-export const db = getFirestore();
+export const auth = getAuth(app)
+export const db = getFirestore(app)
+
+export const signInWithGoogle = async googleCredential => {
+	try {
+		const result = await signInWithCredential(auth, googleCredential)
+		const user = result.user
+
+		console.log('Successfully signed in with Firebase')
+		return user
+	} catch (error) {
+		console.error('Error signing in with Google:', error)
+		throw error
+	}
+}

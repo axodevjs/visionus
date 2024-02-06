@@ -1,42 +1,46 @@
-import React, {FC, useEffect, useState} from 'react';
-import { View } from 'react-native';
-import { addDays, format, startOfWeek } from 'date-fns';
-import { ru } from 'date-fns/locale';
-import { IWeekDay } from './types';
-import StatisticDisplay from "./StatisticDisplay";
+import { isSameDay } from 'date-fns'
+import React, { FC, useEffect, useState } from 'react'
+import { View } from 'react-native'
+import { generateWeekDays } from '../../../utils/dateUtils'
+import StatisticDisplay from './StatisticDisplay'
+import { IWeekDay } from './types'
 
 interface IWeekStatistic {
-    type: 'progress' | 'smile'
-    data: any
+	type: 'progress' | 'smile'
+	data: any
 }
 
-const WeekStatistic:FC<IWeekStatistic> = ({type, data}) => {
-    const [weekDays, setWeekDays] = useState<IWeekDay[]>([]);
+const WeekStatistic: FC<IWeekStatistic> = ({ type, data }) => {
+	const [weekDays, setWeekDays] = useState<IWeekDay[]>([])
 
-    useEffect(() => {
-        const currentDate = new Date();
-        const startOfCurrentWeek = startOfWeek(currentDate, { locale: ru, weekStartsOn: 1 });
+	useEffect(() => {
+		const updatedWeekDays = generateWeekDays()
+		setWeekDays(updatedWeekDays)
+	}, [])
 
-        const updatedWeekDays = Array.from({ length: 7 }, (_, index) => {
-            const date = format(addDays(startOfCurrentWeek, index), 'yyyy-MM-dd', { locale: ru });
-            const name = format(addDays(startOfCurrentWeek, index), 'EEE', { locale: ru });
-            return { date, name: name === 'суб' ? 'сб' : name.slice(0, -1) };
-        });
+	return (
+		<View className={'flex flex-row justify-around pt-2 items-end gap-4'}>
+			{weekDays.map((day, i) => {
+				const value =
+					data.find(x => {
+						const dataDate = new Date(x?.date)
+						const dayDate = new Date(day?.date)
 
-        setWeekDays(updatedWeekDays);
-    }, []);
+						return isSameDay(dataDate, dayDate)
+					})?.value || 0
 
-    return (
-        <View className={'flex flex-row justify-around pt-2 items-end gap-4'}>
-            {weekDays.map((day, i) => {
-                const value = data.find(x => new Date(x?.date)?.getDate() === new Date(day?.date)?.getDate())?.value || 0;
+				return (
+					<StatisticDisplay
+						day={day.name}
+						date={day.date}
+						value={value}
+						calculate={type === 'progress'}
+						key={i}
+					/>
+				)
+			})}
+		</View>
+	)
+}
 
-                return (
-                    <StatisticDisplay day={day.name} value={value} calculate={type === 'progress'} key={i}/>
-                );
-            })}
-        </View>
-    );
-};
-
-export default WeekStatistic;
+export default WeekStatistic
