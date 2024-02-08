@@ -1,6 +1,7 @@
-import React, { FC, useState } from 'react'
+import React, { FC } from 'react'
 import { Text, View } from 'react-native'
 import { AnimatedCircularProgress } from 'react-native-circular-progress'
+import { useUserFirestore } from '../../hooks/useUserFirestore'
 import { ib, ir } from '../../utils/fontStyles'
 
 interface IProgressCircle {
@@ -9,7 +10,7 @@ interface IProgressCircle {
 }
 
 const ProgressCircle: FC<IProgressCircle> = ({ fill, type }) => {
-	const [dayPlan, setDayPlan] = useState(10)
+	const { userFirestore } = useUserFirestore()
 
 	return (
 		<View className={'flex flex-col w-full items-center'}>
@@ -39,7 +40,7 @@ const ProgressCircle: FC<IProgressCircle> = ({ fill, type }) => {
 				>
 					<View className={'bg-blue-600 w-4 h-4 rounded-full'} />
 					<Text className={'text-sm text-black'} style={ir}>
-						Дневная цель ({dayPlan} мин)
+						Дневная цель ({userFirestore?.dayPlanInMinutes} мин)
 					</Text>
 				</View>
 			)}

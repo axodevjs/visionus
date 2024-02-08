@@ -1,23 +1,31 @@
-import React, {useState} from 'react'
-import Counter from "../../components/ui/Counter/Counter";
-import QuizLayout from "../../components/Layouts/QuizLayout/QuizLayout";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { doc, setDoc } from 'firebase/firestore'
+import React, { useState } from 'react'
+import QuizLayout from '../../components/Layouts/QuizLayout/QuizLayout'
+import Counter from '../../components/ui/Counter/Counter'
+import { db } from '../../firebase/firebase'
+import useUser from '../../hooks/useUser'
 
 const AgeScreen = ({ navigation }) => {
 	const [age, setAge] = useState(18)
+	const { user } = useUser()
 
 	const onPressNext = async () => {
 		try {
-			await AsyncStorage.setItem('age', age.toString());
+			const userRef = doc(db, 'users', user.uid)
+			setDoc(userRef, { age }, { merge: true })
 		} catch (e) {
 			console.log(e)
 		}
 
-		await navigation.navigate("EyesStatus")
+		await navigation.navigate('EyesStatus')
 	}
 
 	return (
-		<QuizLayout onPressBtn={onPressNext} btnText='Продолжить' title={"Сколько вам лет?"}>
+		<QuizLayout
+			onPressBtn={onPressNext}
+			btnText='Продолжить'
+			title={'Сколько вам лет?'}
+		>
 			<Counter min={6} max={99} count={age} setCount={setAge} />
 		</QuizLayout>
 	)

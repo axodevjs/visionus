@@ -30,13 +30,15 @@ const MainNavigator = () => {
 						<Stack.Screen name='Home' component={HomeScreen} />
 						<Stack.Screen name='Category' component={CategoryScreen} />
 						<Stack.Screen name='Exercise' component={ExerciseScreen} />
+
+						{/* questions screens */}
+						<Stack.Screen name='Age' component={AgeScreen} />
+						<Stack.Screen name='EverydayTime' component={EverydayTimeScreen} />
+						<Stack.Screen name='EyesStatus' component={EyesStatusScreen} />
 					</>
 				) : (
 					<Stack.Screen name='Start' component={StartScreen} />
 				)}
-				<Stack.Screen name='Age' component={AgeScreen} />
-				<Stack.Screen name='EverydayTime' component={EverydayTimeScreen} />
-				<Stack.Screen name='EyesStatus' component={EyesStatusScreen} />
 			</Stack.Navigator>
 			<Modals />
 		</NavigationContainer>
