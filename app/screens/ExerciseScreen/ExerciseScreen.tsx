@@ -1,8 +1,10 @@
+import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore'
 import React, { useEffect, useState } from 'react'
 import { Text } from 'react-native'
 import useCategoryStore from '../../../store/useCategoryStore/useCategoryStore'
 import useExerciseStore from '../../../store/useExerciseStore/useExerciseStore'
 import ExerciseLayout from '../../components/Layouts/ExerciseLayout/ExerciseLayout'
+import { auth, db } from '../../firebase/firebase'
 import { ib } from '../../utils/fontStyles'
 import { exercisesList } from '../../utils/testdb'
 
@@ -19,6 +21,7 @@ const ExerciseScreen = ({ navigation }) => {
 		taskQueue,
 	} = useExerciseStore()
 	const [taskIndex, setTaskIndex] = useState(0)
+	const [totalTimeSec, setTotalTimeSec] = useState(0)
 
 	useEffect(() => {
 		startExercise()
@@ -31,6 +34,7 @@ const ExerciseScreen = ({ navigation }) => {
 		setCurrentExercise(exercise)
 
 		for (const task of exercise.tasks) {
+			setTotalTimeSec(prev => prev + task.timeInSec)
 			enqueueTask(task)
 		}
 	}
@@ -50,13 +54,49 @@ const ExerciseScreen = ({ navigation }) => {
 				() => {
 					// Do something during each tick if needed
 				},
-				() => {
+				async () => {
+					// Если таски закончились
 					if (taskQueue?.length - 1 <= 0) {
-						navigation.navigate('Home')
+						// Сохраняю результат тренировки
+						try {
+							const today = new Date()
+							const exerciseRef = doc(
+								db,
+								'exercises',
+								`${auth.currentUser.uid}_${today.toISOString().slice(0, 10)}`
+							)
+
+							// Проверяем существует ли документ на сегодня
+							const exerciseSnapshot = await getDoc(exerciseRef)
+
+							if (exerciseSnapshot.exists()) {
+								// Если существует, получаем текущее время из базы данных
+								const existingTime = exerciseSnapshot.data().timeInSec || 0 // Если времени нет, считаем его равным 0
+
+								// Вычисляем обновленное время, добавляя новое значение к текущему времени
+								const updatedTime = existingTime + totalTimeSec
+
+								// Обновляем документ в базе данных
+								await updateDoc(exerciseRef, {
+									timeInSec: updatedTime,
+								})
+							} else {
+								// Если не существует, создаем новый
+								await setDoc(exerciseRef, {
+									uid: auth.currentUser.uid,
+									date: today,
+									timeInSec: totalTimeSec,
+								})
+							}
+						} catch (error) {
+							console.error('Error updating exercise:', error)
+						}
+
+						await navigation.navigate('FinishExercise')
 					}
 
-					dequeueTask()
-					setTaskIndex(prev => prev + 1)
+					await dequeueTask()
+					await setTaskIndex(prev => prev + 1)
 				}
 			)
 		} else {
@@ -73,7 +113,7 @@ const ExerciseScreen = ({ navigation }) => {
 			}}
 			btnText={'Начать'}
 		>
-			<Text style={ib} className={'text-xl'}>
+			<Text style={ib} className={'text-xl text-center'}>
 				{currentTask?.name}
 			</Text>
 		</ExerciseLayout>

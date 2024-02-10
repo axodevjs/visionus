@@ -7,6 +7,7 @@ import CategoryScreen from '../screens/CategoryScreen/CategoryScreen'
 import EverydayTimeScreen from '../screens/EverydayTimeScreen/EverydayTimeScreen'
 import ExerciseScreen from '../screens/ExerciseScreen/ExerciseScreen'
 import EyesStatusScreen from '../screens/EyesStatusScreen/EyesStatusScreen'
+import FinishExerciseScreen from '../screens/FinishExerciseScreen/FinishExerciseScreen'
 import HomeScreen from '../screens/HomeScreen/HomeScreen'
 import StartScreen from '../screens/StartScreen/StartScreen'
 import Modals from './Modals'
@@ -30,6 +31,10 @@ const MainNavigator = () => {
 						<Stack.Screen name='Home' component={HomeScreen} />
 						<Stack.Screen name='Category' component={CategoryScreen} />
 						<Stack.Screen name='Exercise' component={ExerciseScreen} />
+						<Stack.Screen
+							name='FinishExercise'
+							component={FinishExerciseScreen}
+						/>
 
 						{/* questions screens */}
 						<Stack.Screen name='Age' component={AgeScreen} />

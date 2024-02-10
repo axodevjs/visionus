@@ -1,26 +1,37 @@
-import React, {useEffect} from 'react';
-import ExerciseLayout from "../../components/Layouts/ExerciseLayout/ExerciseLayout";
-import Categories from "../../components/Categories/Categories";
-import useExerciseStore from "../../../store/useExerciseStore/useExerciseStore";
-import useCategoryStore from "../../../store/useCategoryStore/useCategoryStore";
+import React, { useEffect } from 'react'
+import useExerciseStore from '../../../store/useExerciseStore/useExerciseStore'
+import Categories from '../../components/Categories/Categories'
+import ExerciseLayout from '../../components/Layouts/ExerciseLayout/ExerciseLayout'
 
-const CategoryScreen = ({navigation}) => {
-    const {setCurrentExercise, setCurrentTask} = useExerciseStore()
+const CategoryScreen = ({ navigation }) => {
+	const { setCurrentExercise, setCurrentTask, dequeueTask, taskQueue } =
+		useExerciseStore()
 
-    const onPressBtn = () => {
-        navigation.navigate('Exercise')
-    }
+	const onPressBtn = () => {
+		navigation.navigate('Exercise')
+	}
 
-    useEffect(() => {
-        setCurrentExercise(null)
-        setCurrentTask(null)
-    }, []);
+	useEffect(() => {
+		setCurrentExercise(null)
+		setCurrentTask(null)
 
-    return (
-        <ExerciseLayout onPressBtn={onPressBtn} title={'Выберите категорию'} onClose={() => {navigation.navigate("Home")}} btnText={"Начать"}>
-            <Categories/>
-        </ExerciseLayout>
-    );
-};
+		for (let i = 0; i < taskQueue.length; i++) {
+			dequeueTask()
+		}
+	}, [])
 
-export default CategoryScreen;
+	return (
+		<ExerciseLayout
+			onPressBtn={onPressBtn}
+			title={'Выберите категорию'}
+			onClose={() => {
+				navigation.navigate('Home')
+			}}
+			btnText={'Начать'}
+		>
+			<Categories />
+		</ExerciseLayout>
+	)
+}
+
+export default CategoryScreen
