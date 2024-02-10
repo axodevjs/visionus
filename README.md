@@ -1,4 +1,4 @@
-## VisionUs: Vision Exercise Application
+## VisionUs: React Native Vision Exercise Application
 
 ### Description
 
