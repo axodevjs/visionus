@@ -11,18 +11,16 @@ const StatusStatistic = () => {
 	useEffect(() => {
 		const fetchWeekData = async () => {
 			try {
+				if (!auth.currentUser) return
+
 				// Определите начало и конец текущей недели
 				const currentDate = new Date()
 				const startOfWeekDate = startOfWeek(currentDate, { weekStartsOn: 1 })
-				;('yyyy-M-d')
-
 				const endOfWeekDate = endOfWeek(currentDate, { weekStartsOn: 1 })
-				;('yyyy-M-d')
 
 				// Получите данные из коллекции "statuses" для текущего пользователя и текущей недели
 				const q = query(
-					collection(db, 'statuses'),
-					where('uid', '==', auth.currentUser.uid),
+					collection(db, 'users', auth.currentUser.uid, 'statuses'),
 					where('date', '>=', startOfWeekDate),
 					where('date', '<=', endOfWeekDate)
 				)
@@ -34,7 +32,6 @@ const StatusStatistic = () => {
 						const date = status.date.toDate()
 						status.date = date
 						status.value = status.level
-						console.log(status)
 						weekDataArray.push(status)
 					})
 
@@ -51,13 +48,11 @@ const StatusStatistic = () => {
 			}
 		}
 
-		if (auth.currentUser) {
-			fetchWeekData()
-		}
+		fetchWeekData()
 	}, [auth.currentUser])
 
 	return (
-		<Statistic title={'Ваша усталость'}>
+		<Statistic title={'Ваше состояние'}>
 			<WeekStatistic data={weekData} type={'smile'} />
 		</Statistic>
 	)

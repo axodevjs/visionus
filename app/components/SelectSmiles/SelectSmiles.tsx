@@ -35,10 +35,16 @@ const SelectSmiles: FC<ISelectSmiles> = ({
 		// Получаем текущий статус пользователя из Firestore
 		const getStatus = async () => {
 			try {
-				const statusesRef = collection(db, 'statuses')
+				if (!auth.currentUser) return
+
+				const statusesRef = collection(
+					db,
+					'users',
+					auth.currentUser.uid,
+					'statuses'
+				)
 				const q = query(
 					statusesRef,
-					where('uid', '==', auth?.currentUser?.uid),
 					where('date', '>=', todayStart),
 					where('date', '<=', todayEnd)
 				)
@@ -68,8 +74,10 @@ const SelectSmiles: FC<ISelectSmiles> = ({
 			const today = new Date()
 			const statusRef = doc(
 				db,
+				'users',
+				auth.currentUser?.uid,
 				'statuses',
-				`${auth.currentUser.uid}_${today.toISOString().slice(0, 10)}`
+				`${auth.currentUser?.uid}_${today.toISOString().slice(0, 10)}`
 			)
 
 			// Проверяем существует ли документ на сегодня
@@ -83,7 +91,7 @@ const SelectSmiles: FC<ISelectSmiles> = ({
 			} else {
 				// Если не существует, создаем новый
 				await setDoc(statusRef, {
-					uid: auth.currentUser.uid,
+					uid: auth.currentUser?.uid,
 					date: today,
 					level: level,
 				})

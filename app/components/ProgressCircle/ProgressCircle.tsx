@@ -1,6 +1,7 @@
 import React, { FC } from 'react'
 import { Text, View } from 'react-native'
 import { AnimatedCircularProgress } from 'react-native-circular-progress'
+import useTodayExerciseTime from '../../hooks/useTodayExerciseTime'
 import { useUserFirestore } from '../../hooks/useUserFirestore'
 import { ib, ir } from '../../utils/fontStyles'
 
@@ -11,14 +12,15 @@ interface IProgressCircle {
 
 const ProgressCircle: FC<IProgressCircle> = ({ fill, type }) => {
 	const { userFirestore } = useUserFirestore()
+	const { percentCompleted } = useTodayExerciseTime()
 
 	return (
 		<View className={'flex flex-col w-full items-center'}>
 			<AnimatedCircularProgress
-				duration={600}
+				duration={1000}
 				size={type === 'big' ? 104 : 22}
 				width={type === 'big' ? 12 : 2}
-				fill={fill}
+				fill={type === 'big' ? percentCompleted : fill}
 				rotation={0}
 				lineCap={'round'}
 				tintColor='#2563eb'

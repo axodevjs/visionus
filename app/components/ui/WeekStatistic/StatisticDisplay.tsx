@@ -6,7 +6,7 @@ import { smiles } from '../../../utils/smiles'
 import ProgressCircle from '../../ProgressCircle/ProgressCircle'
 
 interface IStatisticDisplay {
-	value: number | string
+	value: number
 	day: string
 	calculate: boolean
 	date: string
@@ -22,10 +22,7 @@ const StatisticDisplay: FC<IStatisticDisplay> = ({
 		<View className={'items-center ml-4 first:ml-0'}>
 			<View>
 				{calculate ? (
-					<ProgressCircle
-						type={'small'}
-						fill={(parseInt(value?.toString()) / 15) * 100}
-					/>
+					<ProgressCircle type={'small'} fill={value} />
 				) : (
 					<Text className={'text-xs text-black font-medium'} style={ir}>
 						{smiles.find(smile => smile.level === value)?.smile || '?'}

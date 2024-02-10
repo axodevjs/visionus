@@ -1,10 +1,11 @@
-import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore'
+import { collection, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore'
 import React, { useEffect, useState } from 'react'
 import { Text } from 'react-native'
 import useCategoryStore from '../../../store/useCategoryStore/useCategoryStore'
 import useExerciseStore from '../../../store/useExerciseStore/useExerciseStore'
 import ExerciseLayout from '../../components/Layouts/ExerciseLayout/ExerciseLayout'
 import { auth, db } from '../../firebase/firebase'
+import { useUserFirestore } from '../../hooks/useUserFirestore'
 import { ib } from '../../utils/fontStyles'
 import { exercisesList } from '../../utils/testdb'
 
@@ -22,6 +23,7 @@ const ExerciseScreen = ({ navigation }) => {
 	} = useExerciseStore()
 	const [taskIndex, setTaskIndex] = useState(0)
 	const [totalTimeSec, setTotalTimeSec] = useState(0)
+	const { userFirestore } = useUserFirestore()
 
 	useEffect(() => {
 		startExercise()
@@ -60,32 +62,41 @@ const ExerciseScreen = ({ navigation }) => {
 						// Сохраняю результат тренировки
 						try {
 							const today = new Date()
+
+							// Формируем ссылку на документ упражнения для текущего пользователя на сегодняшнюю дату
 							const exerciseRef = doc(
-								db,
-								'exercises',
-								`${auth.currentUser.uid}_${today.toISOString().slice(0, 10)}`
+								collection(db, 'users', auth.currentUser.uid, 'exercises'),
+								today.toISOString().slice(0, 10)
 							)
 
 							// Проверяем существует ли документ на сегодня
 							const exerciseSnapshot = await getDoc(exerciseRef)
 
 							if (exerciseSnapshot.exists()) {
-								// Если существует, получаем текущее время из базы данных
-								const existingTime = exerciseSnapshot.data().timeInSec || 0 // Если времени нет, считаем его равным 0
+								// Если существует, вычисляем процент выполнения тренировки
+								const existingTime = exerciseSnapshot.data().timeInSec || 0
+								const existingPercent =
+									exerciseSnapshot.data().percentCompleted || 0
 
-								// Вычисляем обновленное время, добавляя новое значение к текущему времени
 								const updatedTime = existingTime + totalTimeSec
+								const updatedPercent =
+									(updatedTime / 60 / userFirestore?.dayPlanInMinutes) * 100
 
 								// Обновляем документ в базе данных
 								await updateDoc(exerciseRef, {
 									timeInSec: updatedTime,
+									percentCompleted: updatedPercent,
 								})
 							} else {
 								// Если не существует, создаем новый
+								const newPercent =
+									(totalTimeSec / 60 / userFirestore?.dayPlanInMinutes) * 100
+
 								await setDoc(exerciseRef, {
 									uid: auth.currentUser.uid,
 									date: today,
 									timeInSec: totalTimeSec,
+									percentCompleted: newPercent,
 								})
 							}
 						} catch (error) {
